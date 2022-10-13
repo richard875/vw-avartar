@@ -1,4 +1,5 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { LoadingTrackerEntry } from "./LoadingTrackerEntry";
 import { UIManager } from "./UIManager";
 import { Scenario } from "../world/Scenario";
@@ -24,6 +25,12 @@ export class LoadingManager {
 
   public loadGLTF(path: string, onLoadingFinished: (gltf: any) => void): void {
     let trackerEntry = this.addLoadingEntry(path);
+
+    const dracoLoader = new DRACOLoader();
+    dracoLoader.setDecoderPath(
+      "https://www.gstatic.com/draco/versioned/decoders/1.5.3/"
+    );
+    this.gltfLoader.setDRACOLoader(dracoLoader);
 
     this.gltfLoader.load(
       path,

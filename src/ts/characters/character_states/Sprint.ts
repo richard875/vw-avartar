@@ -1,9 +1,4 @@
-import {
-  CharacterStateBase,
-  EndWalk,
-  JumpRunning,
-  Walk,
-} from "./_stateLibrary";
+import { CharacterStateBase, JumpIdle, Walk } from "./_stateLibrary";
 import { Character } from "../Character";
 
 export class Sprint extends CharacterStateBase {
@@ -17,13 +12,12 @@ export class Sprint extends CharacterStateBase {
     this.character.rotationSimulator.mass = 50;
 
     this.character.setArcadeVelocityTarget(1.4);
-    this.playAnimation("sprint", 0.1);
+    this.playAnimation("Running", 0.1);
   }
 
   public update(timeStep: number): void {
     super.update(timeStep);
     this.character.setCameraRelativeOrientationTarget();
-    this.fallInAir();
   }
 
   public onInputChange(): void {
@@ -34,11 +28,11 @@ export class Sprint extends CharacterStateBase {
     }
 
     if (this.character.actions.jump.justPressed) {
-      this.character.setState(new JumpRunning(this.character));
+      this.character.setState(new JumpIdle(this.character));
     }
 
     if (this.noDirection()) {
-      this.character.setState(new EndWalk(this.character));
+      this.character.setState(new Walk(this.character));
     }
   }
 }

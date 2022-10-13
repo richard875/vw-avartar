@@ -1,4 +1,4 @@
-import { CharacterStateBase, Falling } from "./_stateLibrary";
+import { CharacterStateBase, Idle } from "./_stateLibrary";
 import { ICharacterState } from "../../interfaces/ICharacterState";
 import { Character } from "../Character";
 
@@ -11,7 +11,7 @@ export class JumpIdle extends CharacterStateBase implements ICharacterState {
     this.character.velocitySimulator.mass = 50;
 
     this.character.setArcadeVelocityTarget(0);
-    this.playAnimation("jump_idle", 0.1);
+    this.playAnimation("Jump", 0.1);
     this.alreadyJumped = false;
   }
 
@@ -37,10 +37,8 @@ export class JumpIdle extends CharacterStateBase implements ICharacterState {
       } else {
         this.character.setArcadeVelocityInfluence(0.3, 0, 0.3);
       }
-    } else if (this.timer > 0.3 && this.character.rayHasHit) {
-      this.setAppropriateDropState();
-    } else if (this.animationEnded(timeStep)) {
-      this.character.setState(new Falling(this.character));
+    } else if (this.character.rayHasHit) {
+      this.character.setState(new Idle(this.character));
     }
   }
 }

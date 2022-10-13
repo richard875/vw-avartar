@@ -10,13 +10,11 @@ export class Idle extends CharacterStateBase implements ICharacterState {
     this.character.velocitySimulator.mass = 10;
 
     this.character.setArcadeVelocityTarget(0);
-    this.playAnimation("idle", 0.1);
+    this.playAnimation("Idle", 0.1);
   }
 
   public update(timeStep: number): void {
     super.update(timeStep);
-
-    this.fallInAir();
   }
   public onInputChange(): void {
     super.onInputChange();
@@ -26,11 +24,7 @@ export class Idle extends CharacterStateBase implements ICharacterState {
     }
 
     if (this.anyDirection()) {
-      if (this.character.velocity.length() > 0.5) {
-        this.character.setState(new Walk(this.character));
-      } else {
-        this.setAppropriateStartWalkState();
-      }
+      this.character.setState(new Walk(this.character));
     }
   }
 }
